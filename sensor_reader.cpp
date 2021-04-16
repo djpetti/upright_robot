@@ -6,7 +6,7 @@ namespace {
 
 /// Defines the rotation matrix between the sensor frame and the robot frame.
 const BLA::Matrix<3, 3> kImuToRobot = {1.0, 0.0, 0.0,
-                                       0.0, 1.0, 0.0,
+                                       0.0, -1.0, 0.0,
                                        0.0, 0.0, 1.0};
 
 /**
@@ -36,13 +36,11 @@ const BLA::Matrix<2, 2> kObservationMatrix = {1.0, 0.0,
 
 }  // namespace
 
-SensorReader::SensorReader() {
+void SensorReader::Begin() {
   // Try to initialize the sensor.
-  if (!mpu_.begin()) {
-    Serial.println("Failed to find MPU6050 chip");
-    while (1) {
-      delay(10);
-    }
+  while (!mpu_.begin()) {
+    Serial.println("Failed to initialize sensor.");
+    delay(1000);
   }
 
   mpu_.setAccelerometerRange(MPU6050_RANGE_16_G);

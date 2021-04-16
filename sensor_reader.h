@@ -12,7 +12,11 @@
  */
 class SensorReader {
  public:
-  SensorReader();
+  /**
+   * @brief Initialize the sensor. Call once before doing
+   *   anything.
+   */
+   void Begin();
  
   /**
    * @return The current tilt angle of the robot, in rads.

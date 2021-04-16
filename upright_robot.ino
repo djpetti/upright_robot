@@ -1,4 +1,4 @@
-#include <PID_v1.h>
+ #include <PID_v1.h>
 
 #include "motor_driver.h"
 #include "sensor_reader.h"
@@ -16,9 +16,9 @@ const int kLeftMotorPWMPin = 2;
 /// PWM output for right motor.
 const int kRightMotorPWMPin = 3;
 /// Direction pin for the left motor.
-const int kLeftMotorDirPin = 0;
+const int kLeftMotorDirPin = 4;
 /// Direction pin for the right motor.
-const int kRightMotorDirPin = 1;
+const int kRightMotorDirPin = 5;
 
 /// Loop period, in ms.
 const int kLoopPeriod = 10;
@@ -34,7 +34,7 @@ double g_goal_angle = 0.0;
 PID g_pid(&g_angle, &g_motor_pwm, &g_goal_angle, kP, kI, kD, DIRECT);
 
 /// Reads filtered measurements from the sensor.
-SensorReader g_sensor_reader;
+SensorReader* g_sensor_reader;
 
 /// Handles motor output.
 MotorDriver g_left_motor_driver(kLeftMotorPWMPin, kLeftMotorDirPin);
@@ -44,6 +44,12 @@ MotorDriver g_right_motor_driver(kRightMotorPWMPin, kRightMotorDirPin);
 }  // namespace
 
 void setup() {
+  // Initialize the serial.
+  Serial.begin(9600);
+
+  g_sensor_reader = new SensorReader();
+  g_sensor_reader->Begin();
+  
   // Allow the motor to drive forwards and backwards.
   g_pid.SetOutputLimits(-255.0, 255.0);
   // Turn on the controller.
@@ -52,13 +58,14 @@ void setup() {
 
 void loop() {
   // Read latest from the sensor.
-  g_angle = g_sensor_reader.ReadAngle();
+  g_angle = g_sensor_reader->ReadAngle();
+  //Serial.println(g_angle);
   // Update the controller.
-  g_pid.Compute();
+  //g_pid.Compute();
   
   // Write to the output.
-  g_left_motor_driver.SetSpeed(g_motor_pwm);
-  g_right_motor_driver.SetSpeed(g_motor_pwm);
+  //g_left_motor_driver.SetSpeed(g_motor_pwm);
+  //g_right_motor_driver.SetSpeed(g_motor_pwm);
 
   delay(kLoopPeriod);
 }
