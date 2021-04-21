@@ -13,6 +13,11 @@
 class SensorReader {
  public:
   /**
+   * @param run_period The period at which the filter will be run, in ms.
+   */
+  explicit SensorReader(uint32_t run_period);
+ 
+  /**
    * @brief Initialize the sensor. Call once before doing
    *   anything.
    */
@@ -53,6 +58,9 @@ class SensorReader {
 
   /// Kalman filter.
   KALMAN<2, 2> filter_;
+
+  /// The period at which the Kalman filter will run, in ms.
+  uint32_t run_period_;
 };
 
 #endif  // SENSOR_READER_H_

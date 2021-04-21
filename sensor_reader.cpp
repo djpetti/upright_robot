@@ -6,7 +6,7 @@ namespace {
 
 /// Defines the rotation matrix between the sensor frame and the robot frame.
 const BLA::Matrix<3, 3> kImuToRobot = {1.0, 0.0, 0.0,
-                                       0.0, -1.0, 0.0,
+                                       0.0, 1.0, 0.0,
                                        0.0, 0.0, 1.0};
 
 /**
@@ -24,8 +24,8 @@ const BLA::Matrix<2, 2> kInitialModelCov = {0.001, 0.0,
  *   estimated from many sensor readings with the sensor
  *   sitting on the ground.
  */
-const BLA::Matrix<2, 2> kInitialObservationCov = {0.000438, 0.0,
-                                                  0.0, 0.0};
+const BLA::Matrix<2, 2> kInitialObservationCov = {0.01, 0.0,
+                                                  0.0, 0.0001};
 
 /// Time evolution matrix for the Kalman filter.
 const BLA::Matrix<2, 2> kTimeEvolution = {1.0, 1.0,
@@ -35,6 +35,8 @@ const BLA::Matrix<2, 2> kObservationMatrix = {1.0, 0.0,
                                               0.0, 1.0};
 
 }  // namespace
+
+SensorReader::SensorReader(uint32_t run_period) : run_period_(run_period) {}
 
 void SensorReader::Begin() {
   // Try to initialize the sensor.
@@ -83,17 +85,25 @@ float SensorReader::AngleFromAccel() {
   };
   Multiply(kImuToRobot, kAccel, accel_robot_);
 
-  // In the robot frame, the y-axis points up, the
-  // z-axis points outwards, and the x-axis points right.
-  const float kAccelDown = -kAccel(1);
+  // In the robot frame, the z-axis points down, the
+  // y-axis points right, and the x-axis points outwards.
+  const float kAccelDown = kAccel(2);
   const float kAccelOut = -kAccel(0);
   return atan2(kAccelOut, kAccelDown);
 }
 
 float SensorReader::VelocityFromGyro() {
-  return sqrt(
+  float velocity_mag = sqrt(
     pow(gyro_.gyro.x, 2.0) +
     pow(gyro_.gyro.y, 2.0) +
     pow(gyro_.gyro.z, 2.0)
   );
+
+  if (gyro_.gyro.y < 0) {
+    // Direction is negative.
+    velocity_mag = -velocity_mag;
+  }
+
+  // Convert the velocity to rad/cycle.
+  return velocity_mag * run_period_ / 1000;
 }

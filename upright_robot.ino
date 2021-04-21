@@ -1,4 +1,4 @@
- #include <PID_v1.h>
+#include <PID_v1.h>
 
 #include "motor_driver.h"
 #include "sensor_reader.h"
@@ -6,19 +6,19 @@
 namespace {
 
 /// PID gains.
-const float kP = 10.0;
-const float kD = 1.0;
+const float kP = 2500.0;
+const float kD = 0.0;
 // Since this is a PD controller, I-gain is zero.
 const float kI = 0.0;
 
-/// PWM output for left motor.
-const int kLeftMotorPWMPin = 2;
-/// PWM output for right motor.
-const int kRightMotorPWMPin = 3;
-/// Direction pin for the left motor.
-const int kLeftMotorDirPin = 4;
-/// Direction pin for the right motor.
-const int kRightMotorDirPin = 5;
+/// PWM output for the motors.
+const int kLeftMotorPwm1 = 3;
+const int kLeftMotorPwm2 = 2;
+const int kRightMotorPwm1 = 5;
+const int kRightMotorPwm2 = 4;
+
+/// Pin that the trim pot is connected to.
+const int kTrimPotPin = A1;
 
 /// Loop period, in ms.
 const int kLoopPeriod = 10;
@@ -37,9 +37,22 @@ PID g_pid(&g_angle, &g_motor_pwm, &g_goal_angle, kP, kI, kD, DIRECT);
 SensorReader* g_sensor_reader;
 
 /// Handles motor output.
-MotorDriver g_left_motor_driver(kLeftMotorPWMPin, kLeftMotorDirPin);
-MotorDriver g_right_motor_driver(kRightMotorPWMPin, kRightMotorDirPin);
+MotorDriver g_left_motor_driver(kLeftMotorPwm1, kLeftMotorPwm2);
+MotorDriver g_right_motor_driver(kRightMotorPwm1, kRightMotorPwm2);
 
+/// Stores the trim amount.
+float g_trim = 0.0;
+
+/**
+ * @brief Reads the trim to set on the IMU. 
+ * @return The trim offset to add.
+ */
+float GetTrim() {
+  // Read the potentiometer.
+  const int pot_value = analogRead(kTrimPotPin);
+  const uint32_t max_adc_value = 1 << 12;
+  return (float)(pot_value - (int)(max_adc_value / 2)) / max_adc_value;
+}
 
 }  // namespace
 
@@ -47,8 +60,17 @@ void setup() {
   // Initialize the serial.
   Serial.begin(9600);
 
-  g_sensor_reader = new SensorReader();
+  // Enable 12-bit ADC.
+  analogReadResolution(12);
+
+  // Read the trim setting.
+  g_trim = GetTrim();
+
+  g_sensor_reader = new SensorReader(kLoopPeriod);
   g_sensor_reader->Begin();
+
+  g_left_motor_driver.Begin();
+  g_right_motor_driver.Begin();
   
   // Allow the motor to drive forwards and backwards.
   g_pid.SetOutputLimits(-255.0, 255.0);
@@ -58,14 +80,17 @@ void setup() {
 
 void loop() {
   // Read latest from the sensor.
-  g_angle = g_sensor_reader->ReadAngle();
-  //Serial.println(g_angle);
+  g_angle = g_sensor_reader->ReadAngle() + g_trim;
   // Update the controller.
   //g_pid.Compute();
+  g_motor_pwm = -g_angle * kP;
+  g_motor_pwm = min(255, g_motor_pwm);
+  g_motor_pwm = max(-255, g_motor_pwm);
   
-  // Write to the output.
-  //g_left_motor_driver.SetSpeed(g_motor_pwm);
-  //g_right_motor_driver.SetSpeed(g_motor_pwm);
+  // Write to the output. Since it's differential drive,
+  // the motors have to turn in opposite directions.
+  g_left_motor_driver.SetSpeed(-g_motor_pwm);
+  g_right_motor_driver.SetSpeed(g_motor_pwm);
 
   delay(kLoopPeriod);
 }

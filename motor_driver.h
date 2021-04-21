@@ -7,10 +7,15 @@
 class MotorDriver {
  public:
   /**
-   * @param pwm_pin The pin number that we will use as the PWM output.
-   * @param direction_pin The pin number that we will use to set the direction.
+   * @param output_pin_1 The pin number that we will use as the first PWM output.
+   * @param output_pin_2 The pin number that we will use as the second PWM output.
    */
-  MotorDriver(int pwm_pin, int direction_pin);  
+  MotorDriver(int output_pin_1, int output_pin_2);
+
+  /**
+   * @brief Initializes the motor pins.
+   */
+  void Begin();
 
   /**
    * @brief Sets the speed of the motor.
@@ -20,10 +25,9 @@ class MotorDriver {
   void SetSpeed(int speed);
 
  private:
-  /// The PWM output pin.
-  int pwm_pin_;
-  /// The direction output pin.
-  int direction_pin_;
+  /// The PWM output pins
+  int pwm_pin_1_;
+  int pwm_pin_2_;
 };
 
 #endif  // MOTOR_DRIVER_H_
