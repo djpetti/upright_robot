@@ -6,7 +6,7 @@
 namespace {
 
 /// PID gains.
-const float kP = 2500.0;
+const float kP = 900.0;
 const float kD = 0.0;
 // Since this is a PD controller, I-gain is zero.
 const float kI = 0.0;
@@ -29,6 +29,9 @@ double g_angle = 0.0;
 double g_motor_pwm = 0.0;
 /// Angle setpoint, in radians.
 double g_goal_angle = 0.0;
+
+/// Minimum PWM output for deadband compensation.
+const uint8_t kDeadbandPwm = 0;
 
 /// PID controller.
 PID g_pid(&g_angle, &g_motor_pwm, &g_goal_angle, kP, kI, kD, DIRECT);
@@ -82,8 +85,15 @@ void loop() {
   // Read latest from the sensor.
   g_angle = g_sensor_reader->ReadAngle() + g_trim;
   // Update the controller.
-  //g_pid.Compute();
-  g_motor_pwm = -g_angle * kP;
+  g_pid.Compute();
+
+  // Deadband compensation.
+  if (g_motor_pwm > 0) {
+    g_motor_pwm += kDeadbandPwm;
+  } else {
+    g_motor_pwm -= kDeadbandPwm;
+  }
+
   g_motor_pwm = min(255, g_motor_pwm);
   g_motor_pwm = max(-255, g_motor_pwm);
   

@@ -22,8 +22,8 @@ void MotorDriver::SetSpeed(int speed) {
     low_pin = pwm_pin_1_;
     high_pin = pwm_pin_2_;
   }
-  digitalWrite(low_pin, LOW);
+  analogWrite(high_pin, 255);
 
   // Set the PWM duty cycle.
-  analogWrite(high_pin, abs(speed));
+  analogWrite(low_pin, 255 - abs(speed));
 }
