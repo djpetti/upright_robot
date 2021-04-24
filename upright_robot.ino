@@ -1,6 +1,7 @@
 #include <PID_v1.h>
 
 #include "motor_driver.h"
+#include "rate_limit.h"
 #include "sensor_reader.h"
 
 namespace {
@@ -45,6 +46,9 @@ MotorDriver g_right_motor_driver(kRightMotorPwm1, kRightMotorPwm2);
 
 /// Stores the trim amount.
 float g_trim = 0.0;
+
+/// Used for limiting loop rate.
+RateLimit g_rate_limit(kLoopPeriod);
 
 /**
  * @brief Reads the trim to set on the IMU. 
@@ -102,5 +106,5 @@ void loop() {
   g_left_motor_driver.SetSpeed(-g_motor_pwm);
   g_right_motor_driver.SetSpeed(g_motor_pwm);
 
-  delay(kLoopPeriod);
+  g_rate_limit.Limit();
 }
