@@ -1,5 +1,4 @@
-#include <PID_v1.h>
-
+#include "controller.h"
 #include "motor_driver.h"
 #include "rate_limit.h"
 #include "sensor_reader.h"
@@ -7,10 +6,8 @@
 namespace {
 
 /// PID gains.
-const float kP = 900.0;
-const float kD = 0.0;
-// Since this is a PD controller, I-gain is zero.
-const float kI = 0.0;
+const int kP = 1900;
+const int kD = 21000;
 
 /// PWM output for the motors.
 const int kLeftMotorPwm1 = 3;
@@ -21,21 +18,23 @@ const int kRightMotorPwm2 = 4;
 /// Pin that the trim pot is connected to.
 const int kTrimPotPin = A1;
 
-/// Loop period, in ms.
-const int kLoopPeriod = 10;
+/// Period at which we read the sensors, in ms.
+const int kSensorReadPeriod = 10;
+/**
+ * @brief Factor by which we multiply the sensor read
+ *  period in order to get the controller period.
+ */
+const int kLoopPeriodMultiplier = 3;
+const int kLoopPeriod = kSensorReadPeriod * kLoopPeriodMultiplier;
 
-/// Current angle measurement.
-double g_angle = 0.0;
-/// Current motor PWM output.
-double g_motor_pwm = 0.0;
 /// Angle setpoint, in radians.
-double g_goal_angle = 0.0;
+const float kGoalAngle = 0.0;
 
 /// Minimum PWM output for deadband compensation.
 const uint8_t kDeadbandPwm = 0;
 
-/// PID controller.
-PID g_pid(&g_angle, &g_motor_pwm, &g_goal_angle, kP, kI, kD, DIRECT);
+/// PD controller.
+Controller g_controller(kP, kD, kLoopPeriod);
 
 /// Reads filtered measurements from the sensor.
 SensorReader* g_sensor_reader;
@@ -48,7 +47,9 @@ MotorDriver g_right_motor_driver(kRightMotorPwm1, kRightMotorPwm2);
 float g_trim = 0.0;
 
 /// Used for limiting loop rate.
-RateLimit g_rate_limit(kLoopPeriod);
+RateLimit g_rate_limit(kSensorReadPeriod);
+/// Number of iterations since we've run the controller.
+int g_ticks_since_control_update = 0;
 
 /**
  * @brief Reads the trim to set on the IMU. 
@@ -73,38 +74,33 @@ void setup() {
   // Read the trim setting.
   g_trim = GetTrim();
 
-  g_sensor_reader = new SensorReader(kLoopPeriod);
+  g_sensor_reader = new SensorReader(kSensorReadPeriod);
   g_sensor_reader->Begin();
 
   g_left_motor_driver.Begin();
   g_right_motor_driver.Begin();
   
   // Allow the motor to drive forwards and backwards.
-  g_pid.SetOutputLimits(-255.0, 255.0);
-  // Turn on the controller.
-  g_pid.SetMode(AUTOMATIC);
+  g_controller.SetOutputLimits(-255, 255);
+  g_controller.SetDeadbandCompensation(kDeadbandPwm);
+  g_controller.SetGoal(kGoalAngle);
 }
 
 void loop() {
   // Read latest from the sensor.
-  g_angle = g_sensor_reader->ReadAngle() + g_trim;
-  // Update the controller.
-  g_pid.Compute();
+  const float kAngle = g_sensor_reader->ReadAngle() + g_trim;
 
-  // Deadband compensation.
-  if (g_motor_pwm > 0) {
-    g_motor_pwm += kDeadbandPwm;
-  } else {
-    g_motor_pwm -= kDeadbandPwm;
+  if (++g_ticks_since_control_update >= kLoopPeriodMultiplier) {
+    // Update the controller.
+    const int kOutput = g_controller.ComputeOutput(kAngle);
+    
+    // Write to the output. Since it's differential drive,
+    // the motors have to turn in opposite directions.
+    g_left_motor_driver.SetSpeed(-kOutput);
+    g_right_motor_driver.SetSpeed(kOutput);
+
+    g_ticks_since_control_update = 0;
   }
-
-  g_motor_pwm = min(255, g_motor_pwm);
-  g_motor_pwm = max(-255, g_motor_pwm);
-  
-  // Write to the output. Since it's differential drive,
-  // the motors have to turn in opposite directions.
-  g_left_motor_driver.SetSpeed(-g_motor_pwm);
-  g_right_motor_driver.SetSpeed(g_motor_pwm);
 
   g_rate_limit.Limit();
 }

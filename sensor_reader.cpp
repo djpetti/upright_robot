@@ -17,14 +17,14 @@ const BLA::Matrix<2> kInitialState = {0.0, 0.0};
 /**
  * @brief Initial model covariance.
  */
-const BLA::Matrix<2, 2> kInitialModelCov = {0.001, 0.0,
+const BLA::Matrix<2, 2> kInitialModelCov = {0.0001, 0.0,
                                             0.0, 0.001};
 /**
  * @brief Initial observation covariance. These values are
  *   estimated from many sensor readings with the sensor
  *   sitting on the ground.
  */
-const BLA::Matrix<2, 2> kInitialObservationCov = {0.01, 0.0,
+const BLA::Matrix<2, 2> kInitialObservationCov = {0.15, 0.0,
                                                   0.0, 0.0001};
 
 /// Time evolution matrix for the Kalman filter.
