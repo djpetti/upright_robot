@@ -1,0 +1,601 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L robot_library:Arduino_MKR_0 U?
+U 1 1 608B3F4D
+P 3950 3700
+F 0 "U?" H 3975 4625 50  0000 C CNN
+F 1 "Arduino_MKR_0" H 3975 4534 50  0000 C CNN
+F 2 "" H 3950 3700 50  0001 C CNN
+F 3 "" H 3950 3700 50  0001 C CNN
+	1    3950 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Sensor_Motion:MPU-6050 U?
+U 1 1 608B5245
+P 7350 3550
+F 0 "U?" H 7150 2750 50  0000 C CNN
+F 1 "MPU-6050" H 7650 2750 50  0000 C CNN
+F 2 "Sensor_Motion:InvenSense_QFN-24_4x4mm_P0.5mm" H 7350 2750 50  0001 C CNN
+F 3 "https://store.invensense.com/datasheets/invensense/MPU-6050_DataSheet_V3%204.pdf" H 7350 3400 50  0001 C CNN
+	1    7350 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 608B61F5
+P 7350 2600
+F 0 "#PWR?" H 7350 2450 50  0001 C CNN
+F 1 "+3.3V" H 7365 2773 50  0000 C CNN
+F 2 "" H 7350 2600 50  0001 C CNN
+F 3 "" H 7350 2600 50  0001 C CNN
+	1    7350 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 2850 7250 2700
+Wire Wire Line
+	7250 2700 7350 2700
+Wire Wire Line
+	7450 2700 7450 2850
+Wire Wire Line
+	7350 2600 7350 2700
+Connection ~ 7350 2700
+Wire Wire Line
+	7350 2700 7450 2700
+$Comp
+L power:GND #PWR?
+U 1 1 608B7A1E
+P 7350 4600
+F 0 "#PWR?" H 7350 4350 50  0001 C CNN
+F 1 "GND" H 7355 4427 50  0000 C CNN
+F 2 "" H 7350 4600 50  0001 C CNN
+F 3 "" H 7350 4600 50  0001 C CNN
+	1    7350 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 4250 7350 4600
+$Comp
+L power:GND #PWR?
+U 1 1 608B83F5
+P 6150 3650
+F 0 "#PWR?" H 6150 3400 50  0001 C CNN
+F 1 "GND" H 6155 3477 50  0000 C CNN
+F 2 "" H 6150 3650 50  0001 C CNN
+F 3 "" H 6150 3650 50  0001 C CNN
+	1    6150 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 3650 6150 3450
+Wire Wire Line
+	6150 3450 6650 3450
+Text Label 6150 3250 0    50   ~ 0
+SDA
+Wire Wire Line
+	6150 3250 6650 3250
+Text Label 6150 3350 0    50   ~ 0
+SCL
+Wire Wire Line
+	6150 3350 6650 3350
+Text Label 5200 3800 0    50   ~ 0
+SDA
+Text Label 5200 3700 0    50   ~ 0
+SCL
+Wire Wire Line
+	4550 3700 5050 3700
+Wire Wire Line
+	4550 3800 5050 3800
+$Comp
+L Device:R R?
+U 1 1 608BA81E
+P 5050 4100
+F 0 "R?" H 5120 4146 50  0000 L CNN
+F 1 "10k" H 5120 4055 50  0000 L CNN
+F 2 "" V 4980 4100 50  0001 C CNN
+F 3 "~" H 5050 4100 50  0001 C CNN
+	1    5050 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5050 3950 5050 3800
+Connection ~ 5050 3800
+Wire Wire Line
+	5050 3800 5200 3800
+$Comp
+L power:+3.3V #PWR?
+U 1 1 608BAEF9
+P 5050 4400
+F 0 "#PWR?" H 5050 4250 50  0001 C CNN
+F 1 "+3.3V" H 5065 4573 50  0000 C CNN
+F 2 "" H 5050 4400 50  0001 C CNN
+F 3 "" H 5050 4400 50  0001 C CNN
+	1    5050 4400
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5050 4400 5050 4250
+$Comp
+L Device:R R?
+U 1 1 608BB5C6
+P 5050 3400
+F 0 "R?" H 5120 3446 50  0000 L CNN
+F 1 "10k" H 5120 3355 50  0000 L CNN
+F 2 "" V 4980 3400 50  0001 C CNN
+F 3 "~" H 5050 3400 50  0001 C CNN
+	1    5050 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5050 3550 5050 3700
+Connection ~ 5050 3700
+Wire Wire Line
+	5050 3700 5200 3700
+$Comp
+L power:+3.3V #PWR?
+U 1 1 608BBC60
+P 5050 3100
+F 0 "#PWR?" H 5050 2950 50  0001 C CNN
+F 1 "+3.3V" H 5065 3273 50  0000 C CNN
+F 2 "" H 5050 3100 50  0001 C CNN
+F 3 "" H 5050 3100 50  0001 C CNN
+	1    5050 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Driver_Motor:DRV8871DDA U?
+U 1 1 608BE9C4
+P 1550 6200
+F 0 "U?" H 1400 6600 50  0000 C CNN
+F 1 "DRV8871DDA" H 1850 6600 50  0000 C CNN
+F 2 "Package_SO:Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias" H 1800 6150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/drv8871.pdf" H 1800 6150 50  0001 C CNN
+	1    1550 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 608BFE92
+P 2150 6700
+F 0 "R?" H 2220 6746 50  0000 L CNN
+F 1 "15k" H 2220 6655 50  0000 L CNN
+F 2 "" V 2080 6700 50  0001 C CNN
+F 3 "~" H 2150 6700 50  0001 C CNN
+	1    2150 6700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 6400 2150 6400
+Wire Wire Line
+	2150 6400 2150 6550
+$Comp
+L power:GND #PWR?
+U 1 1 608C080E
+P 2150 7000
+F 0 "#PWR?" H 2150 6750 50  0001 C CNN
+F 1 "GND" H 2155 6827 50  0000 C CNN
+F 2 "" H 2150 7000 50  0001 C CNN
+F 3 "" H 2150 7000 50  0001 C CNN
+	1    2150 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2150 6850 2150 7000
+$Comp
+L Motor:Motor_DC_ALT M?
+U 1 1 608C1645
+P 2950 6100
+F 0 "M?" H 3097 6096 50  0000 L CNN
+F 1 "Left Motor" H 3097 6005 50  0000 L CNN
+F 2 "" H 2950 6010 50  0001 C CNN
+F 3 "~" H 2950 6010 50  0001 C CNN
+	1    2950 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 5900 2950 5750
+Wire Wire Line
+	2950 5750 2350 5750
+Wire Wire Line
+	2350 5750 2350 6100
+Wire Wire Line
+	2350 6100 1950 6100
+Wire Wire Line
+	1950 6200 2350 6200
+Wire Wire Line
+	2350 6200 2350 6550
+Wire Wire Line
+	2350 6550 2950 6550
+Wire Wire Line
+	2950 6550 2950 6400
+$Comp
+L power:GNDREF #PWR?
+U 1 1 608C411D
+P 1550 7000
+F 0 "#PWR?" H 1550 6750 50  0001 C CNN
+F 1 "GNDREF" H 1555 6827 50  0000 C CNN
+F 2 "" H 1550 7000 50  0001 C CNN
+F 3 "" H 1550 7000 50  0001 C CNN
+	1    1550 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1550 6600 1550 7000
+Text Label 1550 5550 0    50   ~ 0
+V_BATT
+Wire Wire Line
+	1550 5550 1550 5900
+Text Label 700  6100 0    50   ~ 0
+LEFT_IN1
+Wire Wire Line
+	700  6100 1150 6100
+Text Label 700  6200 0    50   ~ 0
+LEFT_IN2
+Wire Wire Line
+	700  6200 1150 6200
+$Comp
+L Driver_Motor:DRV8871DDA U?
+U 1 1 608CBAA2
+P 5700 6200
+F 0 "U?" H 5550 6600 50  0000 C CNN
+F 1 "DRV8871DDA" H 6000 6600 50  0000 C CNN
+F 2 "Package_SO:Texas_HTSOP-8-1EP_3.9x4.9mm_P1.27mm_EP2.95x4.9mm_Mask2.4x3.1mm_ThermalVias" H 5950 6150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/drv8871.pdf" H 5950 6150 50  0001 C CNN
+	1    5700 6200
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 608CBBA0
+P 5100 6700
+F 0 "R?" H 5170 6746 50  0000 L CNN
+F 1 "15k" H 5170 6655 50  0000 L CNN
+F 2 "" V 5030 6700 50  0001 C CNN
+F 3 "~" H 5100 6700 50  0001 C CNN
+	1    5100 6700
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 6400 5100 6400
+Wire Wire Line
+	5100 6400 5100 6550
+$Comp
+L power:GND #PWR?
+U 1 1 608CBBAC
+P 5100 7000
+F 0 "#PWR?" H 5100 6750 50  0001 C CNN
+F 1 "GND" H 5105 6827 50  0000 C CNN
+F 2 "" H 5100 7000 50  0001 C CNN
+F 3 "" H 5100 7000 50  0001 C CNN
+	1    5100 7000
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	5100 6850 5100 7000
+$Comp
+L Motor:Motor_DC_ALT M?
+U 1 1 608CBBB7
+P 4300 6100
+F 0 "M?" H 4550 6100 50  0000 R CNN
+F 1 "Right Motor" H 4900 6000 50  0000 R CNN
+F 2 "" H 4300 6010 50  0001 C CNN
+F 3 "~" H 4300 6010 50  0001 C CNN
+	1    4300 6100
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	4300 5900 4300 5750
+Wire Wire Line
+	4300 5750 4900 5750
+Wire Wire Line
+	4900 5750 4900 6100
+Wire Wire Line
+	4900 6100 5300 6100
+Wire Wire Line
+	5300 6200 4900 6200
+Wire Wire Line
+	4900 6200 4900 6550
+Wire Wire Line
+	4900 6550 4300 6550
+Wire Wire Line
+	4300 6550 4300 6400
+$Comp
+L power:GNDREF #PWR?
+U 1 1 608CBBC9
+P 5700 7000
+F 0 "#PWR?" H 5700 6750 50  0001 C CNN
+F 1 "GNDREF" H 5705 6827 50  0000 C CNN
+F 2 "" H 5700 7000 50  0001 C CNN
+F 3 "" H 5700 7000 50  0001 C CNN
+	1    5700 7000
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 6600 5700 7000
+Text Label 5700 5550 2    50   ~ 0
+V_BATT
+Wire Wire Line
+	5700 5550 5700 5900
+Text Label 6550 6100 2    50   ~ 0
+RIGHT_IN1
+Wire Wire Line
+	6550 6100 6100 6100
+Text Label 6550 6200 2    50   ~ 0
+RIGHT_IN2
+Wire Wire Line
+	6550 6200 6100 6200
+Text Label 2950 4100 0    50   ~ 0
+LEFT_IN1
+Wire Wire Line
+	2950 4100 3400 4100
+Text Label 2950 4000 0    50   ~ 0
+LEFT_IN2
+Wire Wire Line
+	2950 4000 3400 4000
+Text Label 2950 4300 0    50   ~ 0
+RIGHT_IN1
+Wire Wire Line
+	2950 4300 3400 4300
+Text Label 2950 4200 0    50   ~ 0
+RIGHT_IN2
+Wire Wire Line
+	2950 4200 3400 4200
+$Comp
+L Device:Battery BT?
+U 1 1 608E59C3
+P 9900 3600
+F 0 "BT?" H 10008 3646 50  0000 L CNN
+F 1 "Li-Ion (3-Cells) 11.1 V" H 10008 3555 50  0000 L CNN
+F 2 "" V 9900 3660 50  0001 C CNN
+F 3 "~" V 9900 3660 50  0001 C CNN
+	1    9900 3600
+	1    0    0    -1  
+$EndComp
+Text Label 9900 3150 0    50   ~ 0
+V_BATT
+Wire Wire Line
+	9900 3150 9900 3400
+$Comp
+L power:GNDREF #PWR?
+U 1 1 608E7FBB
+P 9900 4050
+F 0 "#PWR?" H 9900 3800 50  0001 C CNN
+F 1 "GNDREF" H 9905 3877 50  0000 C CNN
+F 2 "" H 9900 4050 50  0001 C CNN
+F 3 "" H 9900 4050 50  0001 C CNN
+	1    9900 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 4050 9900 3800
+$Comp
+L robot_library:LM2596_Board U?
+U 1 1 608EBC20
+P 9550 1600
+F 0 "U?" H 9550 1925 50  0000 C CNN
+F 1 "LM2596_Board" H 9550 1834 50  0000 C CNN
+F 2 "" H 9550 1600 50  0001 C CNN
+F 3 "" H 9550 1600 50  0001 C CNN
+	1    9550 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDREF #PWR?
+U 1 1 608EDFE4
+P 8700 1950
+F 0 "#PWR?" H 8700 1700 50  0001 C CNN
+F 1 "GNDREF" H 8705 1777 50  0000 C CNN
+F 2 "" H 8700 1950 50  0001 C CNN
+F 3 "" H 8700 1950 50  0001 C CNN
+	1    8700 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8700 1950 8700 1700
+Wire Wire Line
+	8700 1700 8850 1700
+Text Label 8500 1500 0    50   ~ 0
+V_BATT
+Wire Wire Line
+	8500 1500 8850 1500
+$Comp
+L power:GNDREF #PWR?
+U 1 1 608F0834
+P 10450 1950
+F 0 "#PWR?" H 10450 1700 50  0001 C CNN
+F 1 "GNDREF" H 10455 1777 50  0000 C CNN
+F 2 "" H 10450 1950 50  0001 C CNN
+F 3 "" H 10450 1950 50  0001 C CNN
+	1    10450 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10250 1700 10450 1700
+Wire Wire Line
+	10450 1700 10450 1950
+$Comp
+L power:+5V #PWR?
+U 1 1 608F498B
+P 10450 1300
+F 0 "#PWR?" H 10450 1150 50  0001 C CNN
+F 1 "+5V" H 10465 1473 50  0000 C CNN
+F 2 "" H 10450 1300 50  0001 C CNN
+F 3 "" H 10450 1300 50  0001 C CNN
+	1    10450 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10450 1300 10450 1500
+Wire Wire Line
+	10450 1500 10250 1500
+$Comp
+L power:+5V #PWR?
+U 1 1 608F78E3
+P 4750 2900
+F 0 "#PWR?" H 4750 2750 50  0001 C CNN
+F 1 "+5V" H 4765 3073 50  0000 C CNN
+F 2 "" H 4750 2900 50  0001 C CNN
+F 3 "" H 4750 2900 50  0001 C CNN
+	1    4750 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5050 3100 5050 3250
+$Comp
+L power:+3.3V #PWR?
+U 1 1 60901885
+P 4900 3000
+F 0 "#PWR?" H 4900 2850 50  0001 C CNN
+F 1 "+3.3V" H 4915 3173 50  0000 C CNN
+F 2 "" H 4900 3000 50  0001 C CNN
+F 3 "" H 4900 3000 50  0001 C CNN
+	1    4900 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4550 3100 4750 3100
+Wire Wire Line
+	4750 3100 4750 2900
+Wire Wire Line
+	4550 3200 4900 3200
+Wire Wire Line
+	4900 3200 4900 3000
+Text Notes 9250 2050 0    50   ~ 0
+Power Regulation
+$Comp
+L Device:R_POT_TRIM RV?
+U 1 1 6090BFA7
+P 1750 1800
+F 0 "RV?" H 1680 1846 50  0000 R CNN
+F 1 "Angle Trim Pot" H 1680 1755 50  0000 R CNN
+F 2 "" H 1750 1800 50  0001 C CNN
+F 3 "~" H 1750 1800 50  0001 C CNN
+	1    1750 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 6090D477
+P 1750 1400
+F 0 "#PWR?" H 1750 1250 50  0001 C CNN
+F 1 "+3.3V" H 1765 1573 50  0000 C CNN
+F 2 "" H 1750 1400 50  0001 C CNN
+F 3 "" H 1750 1400 50  0001 C CNN
+	1    1750 1400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1750 1400 1750 1650
+$Comp
+L power:GND #PWR?
+U 1 1 6090EDAD
+P 1750 2200
+F 0 "#PWR?" H 1750 1950 50  0001 C CNN
+F 1 "GND" H 1755 2027 50  0000 C CNN
+F 2 "" H 1750 2200 50  0001 C CNN
+F 3 "" H 1750 2200 50  0001 C CNN
+	1    1750 2200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1750 2200 1750 1950
+Text Label 2200 1800 0    50   ~ 0
+ANGLE_TRIM
+Wire Wire Line
+	2200 1800 1900 1800
+Text Label 2850 3200 0    50   ~ 0
+ANGLE_TRIM
+Wire Wire Line
+	2850 3200 3400 3200
+$Comp
+L Device:R R?
+U 1 1 6091914D
+P 8900 3850
+F 0 "R?" H 8970 3896 50  0000 L CNN
+F 1 "12k" H 8970 3805 50  0000 L CNN
+F 2 "" V 8830 3850 50  0001 C CNN
+F 3 "~" H 8900 3850 50  0001 C CNN
+	1    8900 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 6091981B
+P 8900 3250
+F 0 "R?" H 8970 3296 50  0000 L CNN
+F 1 "38k" H 8970 3205 50  0000 L CNN
+F 2 "" V 8830 3250 50  0001 C CNN
+F 3 "~" H 8900 3250 50  0001 C CNN
+	1    8900 3250
+	1    0    0    -1  
+$EndComp
+Text Label 8900 2800 0    50   ~ 0
+V_BATT
+Wire Wire Line
+	8900 2800 8900 3100
+Wire Wire Line
+	8900 3400 8900 3550
+$Comp
+L power:GND #PWR?
+U 1 1 6091D65B
+P 8900 4250
+F 0 "#PWR?" H 8900 4000 50  0001 C CNN
+F 1 "GND" H 8905 4077 50  0000 C CNN
+F 2 "" H 8900 4250 50  0001 C CNN
+F 3 "" H 8900 4250 50  0001 C CNN
+	1    8900 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8900 4250 8900 4000
+Text Label 9200 3550 0    50   ~ 0
+BAT_VSENSE
+Wire Wire Line
+	9200 3550 8900 3550
+Connection ~ 8900 3550
+Wire Wire Line
+	8900 3550 8900 3700
+Text Label 2850 3300 0    50   ~ 0
+BAT_VSENSE
+Wire Wire Line
+	2850 3300 3400 3300
+NoConn ~ 3400 3000
+NoConn ~ 3400 3100
+NoConn ~ 3400 3400
+NoConn ~ 3400 3500
+NoConn ~ 3400 3600
+NoConn ~ 3400 3700
+NoConn ~ 3400 3800
+NoConn ~ 3400 3900
+NoConn ~ 4550 4300
+NoConn ~ 4550 4200
+NoConn ~ 4550 4100
+NoConn ~ 4550 4000
+NoConn ~ 4550 3900
+NoConn ~ 4550 3600
+NoConn ~ 4550 3500
+NoConn ~ 4550 3300
+NoConn ~ 4550 3000
+NoConn ~ 6650 3750
+NoConn ~ 6650 3850
+NoConn ~ 8050 3850
+NoConn ~ 8050 3550
+NoConn ~ 8050 3450
+NoConn ~ 8050 3250
+NoConn ~ 8050 3750
+$EndSCHEMATC
