@@ -57,7 +57,7 @@ void SensorReader::Begin() {
   filter_.H = kObservationMatrix;
 }
 
-float SensorReader::ReadAngle() {
+void SensorReader::ReadAngle(float *angle, float *velocity) {
   // Update with the latest sensor readings.
   GetSensorReadings();
 
@@ -69,7 +69,8 @@ float SensorReader::ReadAngle() {
   // Update the filter with the measurements.
   filter_.update(kObservations);
 
-  return filter_.x(0);
+  *angle = filter_.x(0);
+  *velocity = filter_.x(1);
 }
 
 void SensorReader::GetSensorReadings() {

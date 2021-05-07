@@ -28,21 +28,29 @@ void Controller::SetGoal(float goal) {
   goal_ = static_cast<int>(goal * kFixedPrecision);
 }
 
-int Controller::ComputeOutput(float measurement) {
+int Controller::ComputeOutput(float measurement, float velocity) {
   // Convert to an integer with fixed precision.
-  measurement = static_cast<int>(measurement * kFixedPrecision);
+  const int kMeasurement = static_cast<int>(measurement * kFixedPrecision);
+  const int kVelocity = static_cast<int>(velocity * kFixedPrecision);
+  
   // Calculate error.
-  const int kError = goal_ - measurement;
+  const int kError = goal_ - kMeasurement;
 
   // Apply the gains.
-  const int kDerivative = SmoothDerivative(kError);
-  int output = p_gain_ * kError + d_gain_ * kDerivative;
+  int output = p_gain_ * kError + d_gain_ * velocity;
 
   // Rescale back to the input scale.
   output /= kFixedPrecision;
   // Limit and apply deadband compensation.
   output = CompensateDeadband(output);
   return LimitOutput(output);
+}
+
+int Controller::ComputeOutput(float measurement) {
+  // Compute the derivative.
+  const int kMeasurement = static_cast<int>(measurement * kFixedPrecision);
+
+  return ComputeOutput(measurement, SmoothDerivative(kMeasurement));
 }
 
 int Controller::SmoothDerivative(int next_error) {

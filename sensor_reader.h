@@ -24,9 +24,11 @@ class SensorReader {
    void Begin();
  
   /**
-   * @return The current tilt angle of the robot, in rads.
+   * @brief Reads the tilt and angular velocity.
+   * @param angle The tilt angle of the robot, in rad.
+   * @param velocity The angular velocity, in rad/cycle.
    */
-  float ReadAngle(); 
+  void ReadAngle(float *angle, float *velocity); 
 
  private:
   /**

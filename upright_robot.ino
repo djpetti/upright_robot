@@ -6,8 +6,8 @@
 namespace {
 
 /// PID gains.
-const int kP = 1900;
-const int kD = 21000;
+const int kP = 1600;
+const int kD = 5500;
 
 /// PWM output for the motors.
 const int kLeftMotorPwm1 = 3;
@@ -31,7 +31,7 @@ const int kLoopPeriod = kSensorReadPeriod * kLoopPeriodMultiplier;
 const float kGoalAngle = 0.0;
 
 /// Minimum PWM output for deadband compensation.
-const uint8_t kDeadbandPwm = 0;
+const uint8_t kDeadbandPwm = 5;
 
 /// PD controller.
 Controller g_controller(kP, kD, kLoopPeriod);
@@ -88,11 +88,13 @@ void setup() {
 
 void loop() {
   // Read latest from the sensor.
-  const float kAngle = g_sensor_reader->ReadAngle() + g_trim;
+  float angle, velocity;
+  g_sensor_reader->ReadAngle(&angle, &velocity);
+  angle += g_trim;
 
   if (++g_ticks_since_control_update >= kLoopPeriodMultiplier) {
     // Update the controller.
-    const int kOutput = g_controller.ComputeOutput(kAngle);
+    const int kOutput = g_controller.ComputeOutput(angle, velocity);
     
     // Write to the output. Since it's differential drive,
     // the motors have to turn in opposite directions.

@@ -34,6 +34,17 @@ class Controller {
 
   /**
    * @brief Computes the output to use.
+   * @param measurement The measurement value to base the output on.
+   * @param velocity The measurement velocity value to use for the
+   *  derivative component.
+   * @return The computed output.
+   */
+  int ComputeOutput(float measurement, float velocity);
+
+  /**
+   * @brief Computes the output to use. In this case, the derivative
+   *  signal will be computed directly from the measurement.
+   * @param measurement The measurement value to base the output on.
    * @return The computed output.
    */
   int ComputeOutput(float measurement);
